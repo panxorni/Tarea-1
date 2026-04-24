@@ -1,3 +1,4 @@
+package org.example;
 public enum TipoProducto {
     COCACOLA ("CocaCola", 1000),
     FANTA ("Fanta", 1000),
