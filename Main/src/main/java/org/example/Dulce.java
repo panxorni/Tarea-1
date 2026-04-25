@@ -1,4 +1,7 @@
 package org.example;
 
-public class Dulce extends Producto{
+abstract public class Dulce extends Producto{
+    public Dulce (TipoProducto tipo){
+        super (tipo);
+    }
 }
