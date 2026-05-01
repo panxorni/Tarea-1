@@ -9,7 +9,7 @@ public class MainInteractivo {
 
         boolean corriendo=true;
         while(corriendo){
-            System.out.println("\n||>=====================<||");
+            System.out.println("||>=====================<||");
             System.out.println("||  Maquina expendedora  ||");
             System.out.println("||>=====================<||");
             System.out.println("|| 1. CocaCola     $1000 ||");
@@ -27,7 +27,7 @@ public class MainInteractivo {
                 break;
             }
 
-            TipoProducto tipo;
+            TipoProducto tipo=null;
             switch (eleccion){
                 case 1:
                     tipo= TipoProducto.COCACOLA;
@@ -51,7 +51,7 @@ public class MainInteractivo {
             System.out.println("Ingrese el pago, solo se aceptan monedas de 100, 500, 1000 y 1500");
             int valor= escaner.nextInt();
 
-            Moneda m;
+            Moneda m=null;
             switch (valor){
                 case 100:
                     m=new Moneda100();
@@ -68,6 +68,16 @@ public class MainInteractivo {
                 default:
                     System.out.println("Metodo de pago invalido");
             }
+
+            try{
+                Comprador c=new Comprador(m, tipo, exp);
+                System.out.println("Compro: "+c.queConsumiste());
+                System.out.println("Vuelto: "+c.cuantoVuelto());
+            }catch(PagoIncorrectoException |PagoInsuficienteException | NoHayProductoException e){
+                System.out.println(e.getMessage());
+            }
+            System.out.println("");
         }
+        escaner.close();
     }
 }

@@ -14,6 +14,9 @@ public class Expendedor{
     private Deposito<Producto> depositoSnickers;
     private Deposito<Producto> depositoSuper8;
 
+    private void limpiarVuelto() {
+        while (getVuelto() != null);
+    }
     /**
      * Constructor del Expendedor.
      * Inicializa los depósitos y los llena con la cantidad especificada de productos.
@@ -67,6 +70,7 @@ public class Expendedor{
     }
 
     public Producto comprarProducto(Moneda m, TipoProducto tipo) throws PagoIncorrectoException, PagoInsuficienteException, NoHayProductoException {
+        limpiarVuelto();
         // 1. Verificación de moneda nula
         if (m == null){
             throw new PagoIncorrectoException("Error: Se intentó comprar sin ingresar dinero (Moneda null).");
