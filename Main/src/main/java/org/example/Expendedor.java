@@ -1,4 +1,118 @@
 package org.example;
 
-public class Expendedor {
+/**
+ * Simula una máquina expendedora que almacena productos y procesa compras.
+ * Gestiona depósitos individuales para distintos tipos de productos y un depósito
+ * para las monedas de vuelto.
+ */
+public class Expendedor{
+
+    private Deposito<Moneda> depositoVuelto;
+    private Deposito<Producto> depositoCocaCola;
+    private Deposito<Producto> depositoSprite;
+    private Deposito<Producto> depositoFanta;
+    private Deposito<Producto> depositoSnickers;
+    private Deposito<Producto> depositoSuper8;
+
+    /**
+     * Constructor del Expendedor.
+     * Inicializa los depósitos y los llena con la cantidad especificada de productos.
+     *
+     * @param numProductos La cantidad inicial de unidades que tendrá cada tipo de producto.
+     */
+    public Expendedor(int numProductos){
+        depositoVuelto = new Deposito<>();
+        depositoCocaCola = new Deposito<>();
+        depositoSprite = new Deposito<>();
+        depositoFanta = new Deposito<>();
+        depositoSnickers = new Deposito<>();
+        depositoSuper8 = new Deposito<>();
+
+
+        for (int i = 0; i < numProductos; i++){
+            // El número de serie (i) sirve para diferenciar cada producto
+            depositoCocaCola.addElemento(new CocaCola(i));
+            depositoSprite.addElemento(new Sprite(i));
+            depositoFanta.addElemento(new Fanta(i));
+            depositoSnickers.addElemento(new Snickers(i));
+            depositoSuper8.addElemento(new Super8(i));
+        }
+    }
+
+    /**
+     * Procesa la compra de un producto. Verifica que el pago sea válido, que el
+     * monto sea suficiente y que exista stock del producto solicitado.
+     *
+     * @param m    La moneda con la que se intenta pagar.
+     * @param tipo El enumerador que indica el tipo de producto deseado.
+     * @return El Producto comprado.
+     * @throws PagoIncorrectoException   Si la moneda ingresada es null.
+     * @throws PagoInsuficienteException Si el valor de la moneda es menor al precio del producto.
+     * @throws NoHayProductoException    Si no queda stock del producto o el tipo es inválido.
+     */
+    public Producto comprarProducto(Moneda m, TipoProducto tipo) throws PagoIncorrectoException, PagoInsuficienteException, NoHayProductoException {
+        // 1. Verificación de moneda nula
+        if (m == null){
+            throw new PagoIncorrectoException("Error: Se intentó comprar sin ingresar dinero (Moneda null).");
+        }
+
+        // 2. Verificación de tipo de producto nulo
+        if (tipo == null){
+            depositoVuelto.addElemento(m);
+            throw new NoHayProductoException("Error: El tipo de producto seleccionado no es válido.");
+        }
+
+        int precio = tipo.getPrecio();
+
+        // 3. Verificación de pago insuficiente
+        if (m.getValor() < precio){
+            depositoVuelto.addElemento(m); // Se devuelve la misma moneda
+            throw new PagoInsuficienteException("Error: El monto ingresado ($" + m.getValor() + ") es insuficiente para el producto seleccionado ($" + precio + ").");
+        }
+
+        // 4. Extracción del producto del depósito correspondiente
+        Producto productoComprado = null;
+        switch (tipo){
+            case COCACOLA:
+                productoComprado = depositoCocaCola.getElemento();
+                break;
+            case SPRITE:
+                productoComprado = depositoSprite.getElemento();
+                break;
+            case FANTA:
+                productoComprado = depositoFanta.getElemento();
+                break;
+            case SNICKERS:
+                productoComprado = depositoSnickers.getElemento();
+                break;
+            case SUPER8:
+                productoComprado = depositoSuper8.getElemento();
+                break;
+        }
+
+        // 5. Verificación de stock
+        if (productoComprado == null){
+            depositoVuelto.addElemento(m); // Se devuelve la misma moneda si no hay stock
+            throw new NoHayProductoException("Error: No queda stock del producto seleccionado (" + tipo.name() + ").");
+        }
+
+        // 6. Cálculo y entrega del vuelto (solo si la compra es exitosa)
+        // La moneda de pago se extingue y se genera el vuelto en monedas de 100
+        int montoVuelto = m.getValor() - precio;
+        while (montoVuelto > 0){
+            depositoVuelto.addElemento(new Moneda100());
+            montoVuelto -= 100;
+        }
+
+        return productoComprado;
+    }
+
+    /**
+     * Permite retirar una moneda de vuelto a la vez desde el depósito de vuelto.
+     *
+     * @return Una Moneda de vuelto, o null si ya no quedan monedas.
+     */
+    public Moneda getVuelto(){
+        return depositoVuelto.getElemento();
+    }
 }
