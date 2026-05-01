@@ -45,4 +45,7 @@ public class Deposito<T> {
         }
         return almacen.remove(0);
     }
+    public boolean isEmpty() {
+        return almacen.isEmpty();
+    }
 }

@@ -49,16 +49,34 @@ public class Expendedor{
      * @throws PagoInsuficienteException Si el valor de la moneda es menor al precio del producto.
      * @throws NoHayProductoException    Si no queda stock del producto o el tipo es inválido.
      */
+    private Deposito<Producto> getDeposito(TipoProducto tipo) {
+        switch (tipo) {
+            case COCACOLA:
+                return depositoCocaCola;
+            case SPRITE:
+                return depositoSprite;
+            case FANTA:
+                return depositoFanta;
+            case SNICKERS:
+                return depositoSnickers;
+            case SUPER8:
+                return depositoSuper8;
+            default:
+                return null;
+        }
+    }
+
     public Producto comprarProducto(Moneda m, TipoProducto tipo) throws PagoIncorrectoException, PagoInsuficienteException, NoHayProductoException {
         // 1. Verificación de moneda nula
         if (m == null){
             throw new PagoIncorrectoException("Error: Se intentó comprar sin ingresar dinero (Moneda null).");
         }
 
-        // 2. Verificación de tipo de producto nulo
-        if (tipo == null){
+        // 2. Verificación de tipo de producto no válido o agotado
+        Deposito<Producto> deposito= getDeposito(tipo);
+        if (deposito == null || deposito.isEmpty()){
             depositoVuelto.addElemento(m);
-            throw new NoHayProductoException("Error: El tipo de producto seleccionado no es válido.");
+            throw new NoHayProductoException("Error: El tipo de producto esta agotado o no es válido.");
         }
 
         int precio = tipo.getPrecio();
