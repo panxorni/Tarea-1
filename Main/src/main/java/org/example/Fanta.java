@@ -1,7 +1,7 @@
 package org.example;
 
 public class Fanta extends Bebida{
-    public Fanta (TipoProducto tipo){
+    public Fanta (){
         super(TipoProducto.FANTA);
     }
     public String consumir(){
