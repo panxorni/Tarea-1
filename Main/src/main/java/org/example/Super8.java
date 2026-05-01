@@ -1,7 +1,7 @@
 package org.example;
 
 public class Super8 extends Dulce{
-    public Super8(TipoProducto tipo){
+    public Super8(){
         super(TipoProducto.SUPER8);
     }
     public String consumir(){

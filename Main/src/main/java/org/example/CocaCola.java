@@ -1,7 +1,7 @@
 package org.example;
 
 public class CocaCola extends Bebida{
-    public CocaCola (TipoProducto tipo){
+    public CocaCola (){
         super (TipoProducto.COCACOLA);
     }
     public String consumir(){

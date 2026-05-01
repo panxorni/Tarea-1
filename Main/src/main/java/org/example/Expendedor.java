@@ -30,12 +30,11 @@ public class Expendedor{
 
 
         for (int i = 0; i < numProductos; i++){
-            // El número de serie (i) sirve para diferenciar cada producto
-            depositoCocaCola.addElemento(new CocaCola(i));
-            depositoSprite.addElemento(new Sprite(i));
-            depositoFanta.addElemento(new Fanta(i));
-            depositoSnickers.addElemento(new Snickers(i));
-            depositoSuper8.addElemento(new Super8(i));
+            depositoCocaCola.addElemento(new CocaCola());
+            depositoSprite.addElemento(new Sprite());
+            depositoFanta.addElemento(new Fanta());
+            depositoSnickers.addElemento(new Snickers());
+            depositoSuper8.addElemento(new Super8());
         }
     }
 

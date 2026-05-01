@@ -1,7 +1,7 @@
 package org.example;
 
 public class Sprite extends Bebida{
-    public Sprite(TipoProducto tipo){
+    public Sprite(){
         super(TipoProducto.SPRITE);
     }
     public String consumir() {
