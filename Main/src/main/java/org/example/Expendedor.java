@@ -53,20 +53,26 @@ public class Expendedor{
      * @throws NoHayProductoException    Si no queda stock del producto o el tipo es inválido.
      */
     private Deposito<Producto> getDeposito(TipoProducto tipo) {
-        switch (tipo) {
-            case COCACOLA:
-                return depositoCocaCola;
-            case SPRITE:
-                return depositoSprite;
-            case FANTA:
-                return depositoFanta;
-            case SNICKERS:
-                return depositoSnickers;
-            case SUPER8:
-                return depositoSuper8;
-            default:
-                return null;
+        if (tipo==null){
+            return null;
         }
+        else{
+            switch (tipo) {
+                case COCACOLA:
+                    return depositoCocaCola;
+                case SPRITE:
+                    return depositoSprite;
+                case FANTA:
+                    return depositoFanta;
+                case SNICKERS:
+                    return depositoSnickers;
+                case SUPER8:
+                    return depositoSuper8;
+                default:
+                    return null;
+            }
+        }
+
     }
 
     public Producto comprarProducto(Moneda m, TipoProducto tipo) throws PagoIncorrectoException, PagoInsuficienteException, NoHayProductoException {

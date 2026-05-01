@@ -46,9 +46,20 @@ public class MainInteractivo {
                     break;
                 default:
                     System.out.println("Producto invalido");
+                    continue;
             }
+            System.out.println("||>=====================<||");
+            System.out.println("||  Maquina expendedora  ||");
+            System.out.println("||>=====================<||");
+            System.out.println("||    Ingrese el pago    ||");
+            System.out.println("||>=====================<||");
+            System.out.println("||    Solo se aceptan    ||");
+            System.out.println("||    las monedas de:    ||");
+            System.out.println("||                       ||");
+            System.out.println("||   $100        $500    ||");
+            System.out.println("||   $1000       $1500   ||");
+            System.out.println("||>=====================<||");
 
-            System.out.println("Ingrese el pago, solo se aceptan monedas de 100, 500, 1000 y 1500");
             int valor= escaner.nextInt();
 
             Moneda m=null;
