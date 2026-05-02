@@ -2,8 +2,30 @@ package org.example;
 
 import java.util.Scanner;
 
+/**
+ * Clase main interactivo.
+ *
+ * Permite al usuario seleccionar un producto y pagar con una moneda,
+ * simulando el funcionamiento de la máquina expendedora en consola.
+ *
+ * El programa se ejecuta hasta que el usuario decide salir.
+ */
 public class MainInteractivo {
+    /**
+     * El usuario puede:
+     * - Elegir un producto
+     * - Ingresar una moneda
+     * - Recibir el producto y el vuelto
+     * - Detener la ejecución
+     *
+     * También se manejan errores como:
+     * - Producto invalido
+     * - Pago insuficiente
+     * - Moneda inválida o null
+     * - Producto agotado
+     */
     public static void main(String[] args) {
+        //Scanner para leer datos de la consola
         Scanner escaner= new Scanner(System.in);
         Expendedor exp=new Expendedor(3);
 
@@ -26,7 +48,7 @@ public class MainInteractivo {
                 corriendo=false;
                 break;
             }
-
+            //Se convierte el valor ingresado int a TipoProducto
             TipoProducto tipo=null;
             switch (eleccion){
                 case 1:
@@ -62,6 +84,7 @@ public class MainInteractivo {
 
             int valor= escaner.nextInt();
 
+            //Se convierte el número ingresado a una moneda de ese valor
             Moneda m=null;
             switch (valor){
                 case 100:
@@ -79,7 +102,7 @@ public class MainInteractivo {
                 default:
                     System.out.println("Metodo de pago invalido");
             }
-
+            //Intento de compra + maneja de excepciones
             try{
                 Comprador c=new Comprador(m, tipo, exp);
                 System.out.println("Compro: "+c.queConsumiste());

@@ -1,15 +1,29 @@
 package org.example;
-/*Main de prueba, se debe mostrar el funcionamiento de:
-Crear un expendedor, monedas y comprador.
-Probar todos los casos para comprador
-Probar las excepciones
-Ordenar lista de monedas utilizando comparable
- */
 
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Clase main de pruebas.
+ *
+ * Este main simula el uso del expendedor:
+ * - Crea un expendedor y distintas monedas
+ * - Realiza compras en distintas situaciones
+ * - Prueba el manejo de excepciones
+ * - Ordena monedas usando Comparable
+ */
 public class Main {
+    /**
+     * Ejecuta pruebas del sistema de expendedor.
+     *
+     * Se prueban los siguientes casos:
+     * 1. Compra exitosa
+     * 2. Compra con vuelto
+     * 3. Pago insuficiente
+     * 4. Moneda null
+     * 5. Producto agotado
+     * 6. Ordenamiento de monedas
+     */
     public static void main(String[] args) {
         Expendedor exp= new Expendedor(3);
         Moneda m100=new Moneda100();
@@ -23,7 +37,7 @@ public class Main {
             Comprador c_exitoso=new Comprador(m1000, TipoProducto.SPRITE, exp);
             System.out.println("Consumió "+c_exitoso.queConsumiste());
             System.out.println(("Vuelto: "+c_exitoso.cuantoVuelto()));
-        } catch (Exception e) {
+        } catch (PagoInsuficienteException | PagoIncorrectoException | NoHayProductoException e) {
             System.out.println(e.getMessage());
         }
         System.out.println("\nTest 2: Compra con vuelto");
@@ -31,7 +45,7 @@ public class Main {
             Comprador c_convuelto=new Comprador(m1500, TipoProducto.FANTA, exp);
             System.out.println("Consumió "+ c_convuelto.queConsumiste());
             System.out.println("Vuelto: "+c_convuelto.cuantoVuelto());
-        } catch (Exception e) {
+        } catch (PagoInsuficienteException | PagoIncorrectoException | NoHayProductoException e) {
             System.out.println(e.getMessage());
         }
         System.out.println("\nTest 3: Pago insuficiente");
@@ -39,7 +53,7 @@ public class Main {
             Comprador c_pagoinsuficiente=new Comprador(m100, TipoProducto.SNICKERS, exp);
             System.out.println("Consumió "+ c_pagoinsuficiente.queConsumiste());
             System.out.println("Vuelto: "+ c_pagoinsuficiente.cuantoVuelto());
-        } catch (Exception e) {
+        } catch (PagoInsuficienteException | PagoIncorrectoException | NoHayProductoException e) {
             System.out.println(e.getMessage());
         }
         System.out.println("\nTest 4: Moneda null");
@@ -47,7 +61,7 @@ public class Main {
             Comprador c_mnull=new Comprador(mnull, TipoProducto.SUPER8, exp);
             System.out.println("Consumió "+ c_mnull.queConsumiste());
             System.out.println(("Vuelto: "+ c_mnull.cuantoVuelto()));
-        }catch (Exception e){
+        }catch (PagoInsuficienteException | PagoIncorrectoException | NoHayProductoException e){
             System.out.println(e.getMessage());
         }
         System.out.println("\nTest 5: Producto agotado");
@@ -56,10 +70,11 @@ public class Main {
             c_agotado= new Comprador(m1000, TipoProducto.COCACOLA, exp);
             c_agotado= new Comprador(m1000, TipoProducto.COCACOLA, exp);
             c_agotado= new Comprador(m1000, TipoProducto.COCACOLA, exp);
-        } catch (Exception e) {
+        } catch (PagoInsuficienteException | PagoIncorrectoException | NoHayProductoException e) {
             System.out.println(e.getMessage());
         }
 
+        //Ordenamiento de monedas con la implementación de comparable
         System.out.println("\nOrdenamiento de monedas:");
         ArrayList<Moneda> monedas = new ArrayList<>();
         monedas.add(new Moneda1500());
