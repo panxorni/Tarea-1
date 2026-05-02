@@ -14,6 +14,10 @@ public class Expendedor{
     private Deposito<Producto> depositoSnickers;
     private Deposito<Producto> depositoSuper8;
 
+    /**
+     * Vacía el depósito de vuelto eliminando todas las monedas.
+     * Se utiliza antes de procesar una nueva compra.
+     */
     private void limpiarVuelto() {
         while (getVuelto() != null);
     }
@@ -42,15 +46,10 @@ public class Expendedor{
     }
 
     /**
-     * Procesa la compra de un producto. Verifica que el pago sea válido, que el
-     * monto sea suficiente y que exista stock del producto solicitado.
+     * Retorna el depósito correspondiente al tipo de producto.
      *
-     * @param m    La moneda con la que se intenta pagar.
-     * @param tipo El enumerador que indica el tipo de producto deseado.
-     * @return El Producto comprado.
-     * @throws PagoIncorrectoException   Si la moneda ingresada es null.
-     * @throws PagoInsuficienteException Si el valor de la moneda es menor al precio del producto.
-     * @throws NoHayProductoException    Si no queda stock del producto o el tipo es inválido.
+     * @param tipo tipo de producto
+     * @return depósito asociado o null si el tipo no es válido
      */
     private Deposito<Producto> getDeposito(TipoProducto tipo) {
         if (tipo==null){
@@ -72,9 +71,19 @@ public class Expendedor{
                     return null;
             }
         }
-
     }
 
+    /**
+     * Procesa la compra de un producto. Verifica que el pago sea válido, que el
+     * monto sea suficiente y que exista stock del producto solicitado.
+     *
+     * @param m    La moneda con la que se intenta pagar.
+     * @param tipo El enumerador que indica el tipo de producto deseado.
+     * @return El Producto comprado.
+     * @throws PagoIncorrectoException   Si la moneda ingresada es null.
+     * @throws PagoInsuficienteException Si el valor de la moneda es menor al precio del producto.
+     * @throws NoHayProductoException    Si no queda stock del producto o el tipo es inválido.
+     */
     public Producto comprarProducto(Moneda m, TipoProducto tipo) throws PagoIncorrectoException, PagoInsuficienteException, NoHayProductoException {
         limpiarVuelto();
         // 1. Verificación de moneda nula
@@ -82,7 +91,8 @@ public class Expendedor{
             throw new PagoIncorrectoException("Error: Se intentó comprar sin ingresar dinero (Moneda null).");
         }
 
-        // 2. Verificación de tipo de producto no válido o agotado
+        // 2. Verificación de tipo de producto agotado o no válido
+        //Obtener deposito correspondiente
         Deposito<Producto> deposito= getDeposito(tipo);
         if (deposito == null || deposito.isEmpty()){
             depositoVuelto.addElemento(m);

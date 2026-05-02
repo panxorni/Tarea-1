@@ -45,6 +45,11 @@ public class Deposito<T> {
         }
         return almacen.remove(0);
     }
+    /**
+     * Indica si el depósito está vacío.
+     *
+     * @return true si no hay elementos almacenados, false en caso contrario
+     */
     public boolean isEmpty() {
         return almacen.isEmpty();
     }
